@@ -6,7 +6,7 @@ const Footer = ({ ...rest }) => {
   return (
     <footer className={styles.footer} {...rest}>
       <Container className={`${styles.footerContainer} ${styles.footerLegal}`}>
-        <p>&copy; Geo Jiggle {new Date().getFullYear()}</p>
+        <p>&copy; GeoJiggle {new Date().getFullYear()}</p>
       </Container>
     </footer>
   );

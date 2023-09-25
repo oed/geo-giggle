@@ -21,7 +21,7 @@ export default function Home() {
 
       <Section>
         <Container>
-          <h1 className={styles.title}>Geo Jiggle Demo</h1>
+          <h1 className={styles.title}>GeoJiggle Demo</h1>
 
           <Map className={styles.homeMap} width='800' height='400' center={DEFAULT_CENTER} zoom={12}>
             {({ TileLayer, Marker, Popup }) => (

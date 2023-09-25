@@ -10,7 +10,7 @@ const Header = () => {
     <header className={styles.header}>
       <Container className={styles.headerContainer}>
         <p className={styles.headerTitle}>
-          <Link href='/'>Geo Jiggle</Link>
+          <Link href='/'>GeoJiggle</Link>
         </p>
         <ul className={styles.headerLinks}>
           <li>
