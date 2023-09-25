@@ -8,14 +8,17 @@ import Button from "@components/Button";
 
 import styles from "@styles/Home.module.scss";
 
-const DEFAULT_CENTER = [38.907132, -77.036546];
+const DEFAULT_CENTER = [19.413894958323255, -99.17421357377354];
 
 export default function Home() {
   return (
     <Layout>
       <Head>
         <title>GeoJiggle</title>
-        <meta name='description' content='GeoJiggle is a user-friendly, decentralized platform for collaborative and interactive mapping experiences.' />
+        <meta
+          name='description'
+          content='GeoJiggle is a user-friendly, decentralized platform for collaborative and interactive mapping experiences.'
+        />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
@@ -32,7 +35,8 @@ export default function Home() {
                 />
                 <Marker position={DEFAULT_CENTER}>
                   <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
+                    This is where GeoJiggle was born.
+                    <br /> Date: <strong>September 25, 2023</strong>.
                   </Popup>
                 </Marker>
               </>
