@@ -26,7 +26,7 @@ export default function Home() {
         <Container>
           <h1 className={styles.title}>GeoJiggle Demo</h1>
 
-          <Map className={styles.homeMap} width='800' height='400' center={DEFAULT_CENTER} zoom={12}>
+          <Map className={styles.homeMap} width='800' height='600' center={DEFAULT_CENTER} zoom={15}>
             {({ TileLayer, Marker, Popup }) => (
               <>
                 <TileLayer
