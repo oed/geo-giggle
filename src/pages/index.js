@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <Layout>
       <Head>
-        <title>Next.js Leaflet Starter</title>
-        <meta name='description' content='Create mapping apps with Next.js Leaflet Starter' />
+        <title>GeoJiggle</title>
+        <meta name='description' content='GeoJiggle is a user-friendly, decentralized platform for collaborative and interactive mapping experiences.' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
