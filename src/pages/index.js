@@ -1,11 +1,10 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Layout from "@components/Layout";
 import Section from "@components/Section";
 import Container from "@components/Container";
 import Map from "@components/Map";
-import Button from "@components/Button";
 
 import styles from "@styles/Home.module.scss";
 
@@ -18,6 +17,37 @@ const DESCRIPTION =
 export default function Home() {
   const { compose, isAuthenticated } = useComposeDB();
 
+  const [pins, setPins] = useState([])
+  async function loadPins() {
+    const pins = await compose.executeQuery(`
+    query {
+      pinIndex(first:100) {
+        edges {
+          node {
+            id
+            name
+            description
+            tag
+            lat
+            lon
+          }
+        }
+      }
+    }`);
+    setPins(pins.data.pinIndex.edges.map((edge) => edge.node));
+  }
+
+  function getPins() {
+    useEffect(() => {
+      loadPins()
+    }, [])
+
+    return pins
+  }
+
+  const loadedPins = getPins();
+  console.log(loadedPins);
+
   return (
     <Layout>
       <Head>
@@ -28,7 +58,7 @@ export default function Home() {
 
       <Section>
         <Container>
-          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15}>
+          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins}>
             {({ TileLayer, Marker, Popup }) => (
               <>
                 <TileLayer
@@ -58,35 +88,18 @@ export default function Home() {
                   </Popup>
                 </Marker>
 
-                <Marker position={[19.40330622370157, -99.15588269083605]}>
-                  <Popup>
-                    <form>
-                      <label className={styles.formLabel}>
-                        Name:
+                {
+                  loadedPins.map((pin) => (
+                    <Marker position={[pin.lat, pin.lon]} key={pin.id}>
+                      <Popup>
+                        {pin.name}
                         <br />
-                        <input type='text' className={styles.formInput} />
-                      </label>
-                      <br />
-                      <label className={styles.formLabel}>
-                        Description:
-                        <br />
-                        <textarea className={styles.textAreaInput}></textarea>
-                        <br />
-                        <label className={styles.formLabel}>
-                          Category:
-                          <br />
-                          <select className={styles.formSelect}>
-                            <option value='danger'>Danger</option>
-                            <option value='interest'>Interest Point</option>
-                            <option value='food'>Good Food</option>
-                          </select>
-                        </label>
-                        <br />
-                        <Button>Add to map</Button>
-                      </label>
-                    </form>
-                  </Popup>
-                </Marker>
+                        {pin.description}
+                      </Popup>
+                    </Marker>
+                  ))
+                }
+
               </>
             )}
           </Map>
