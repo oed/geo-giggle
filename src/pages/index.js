@@ -9,12 +9,15 @@ import Button from "@components/Button";
 
 import styles from "@styles/Home.module.scss";
 
+import { useComposeDB } from '../hooks/useComposeDB'
+
 const DEFAULT_CENTER = [19.413894958323255, -99.17421357377354];
 const DESCRIPTION = 'GeoJiggle is a user-friendly, decentralized platform for collaborative and interactive mapping experiences.'
 
 
 export default function Home() {
 
+  const { compose, isAuthenticated } = useComposeDB()
 
   return (
       <Layout>

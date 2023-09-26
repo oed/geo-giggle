@@ -1,7 +1,7 @@
 import '@styles/globals.scss'
 
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
-import { useComposeDB, ComposeDB } from '../hooks/useComposeDB'
+import { ComposeDB } from '../hooks/useComposeDB'
 
 import { WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
