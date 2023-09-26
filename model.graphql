@@ -1,6 +1,7 @@
 type Pin
   @createModel(accountRelation: LIST, description: "A pin to a location")
   @createIndex(fields: [{ path: "tag" }]) {
+  author: DID! @documentAccount
   name: String! @string(minLength: 1, maxLength: 100)
   description: String! @string(minLength: 1, maxLength: 300)
   tag: String! @string(minLength: 1, maxLength: 100)
