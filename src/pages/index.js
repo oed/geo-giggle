@@ -1,9 +1,5 @@
 import Head from "next/head";
 import { useState } from "react";
-import { useWalletClient } from "wagmi";
-
-import { DIDSession } from "did-session";
-import { EthereumWebAuth, getAccountId } from "@didtools/pkh-ethereum";
 
 import Layout from "@components/Layout";
 import Section from "@components/Section";
@@ -13,22 +9,15 @@ import Button from "@components/Button";
 
 import styles from "@styles/Home.module.scss";
 
+import { useComposeDB } from '../hooks/useComposeDB'
+
 const DEFAULT_CENTER = [19.413894958323255, -99.17421357377354];
 const DESCRIPTION =
   "GeoJiggle is a user-friendly, decentralized platform for collaborative and interactive mapping experiences.";
 
 export default function Home() {
-  const { data: walletClient, isError, isLoading } = useWalletClient();
 
-  async function createSession(walletClient) {
-    const accountId = await getAccountId(walletClient, walletClient.account.address);
-    const authMethod = await EthereumWebAuth.getAuthMethod(walletClient, accountId);
-    // change to use specific resource
-    const session = await DIDSession.get(accountId, authMethod, { resources: ["*"] });
-  }
-  if (walletClient) {
-    createSession(walletClient);
-  }
+  const { compose, isAuthenticated } = useComposeDB()
 
   return (
     <Layout>

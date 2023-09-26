@@ -1,6 +1,7 @@
 import '@styles/globals.scss'
 
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
+import { ComposeDB } from '../hooks/useComposeDB'
 
 import { WagmiConfig } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
@@ -14,7 +15,9 @@ createWeb3Modal({ wagmiConfig, projectId: PROJECT_ID, chains })
 function MyApp({ Component, pageProps }) {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <Component {...pageProps} />
+      <ComposeDB>
+        <Component {...pageProps} />
+      </ComposeDB>
     </WagmiConfig>
   )
 }
