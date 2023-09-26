@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
 
 import Container from "@components/Container";
@@ -10,6 +11,8 @@ const Header = () => {
     <header className={styles.header}>
       <Container className={styles.headerContainer}>
         <p className={styles.headerTitle}>
+          <Image src='/geojiggle-logo.png' alt='GeoJiggle' width={32} height={32} />
+          &nbsp;&nbsp;
           <Link href='/'>GeoJiggle</Link>
         </p>
         <ul className={styles.headerLinks}>

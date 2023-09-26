@@ -10,15 +10,15 @@
 }
 
 .headerContainer {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-
 }
 
 .headerTitle {
+  display: flex;
+  align-items: center;
   font-size: 1.6em;
   font-weight: bold;
   margin: 0;
