@@ -31,5 +31,8 @@
     "sass": "^1.66.1",
     "viem": "^1.12.2",
     "wagmi": "^1.4.2"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.6"
   }
 }
