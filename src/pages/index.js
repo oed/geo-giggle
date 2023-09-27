@@ -5,6 +5,7 @@ import Layout from "@components/Layout";
 import Section from "@components/Section";
 import Container from "@components/Container";
 import Map from "@components/Map";
+import Leaderboard from "@components/Leaderboard";
 
 import styles from "@styles/Home.module.scss";
 
@@ -17,7 +18,7 @@ const DESCRIPTION =
 export default function Home() {
   const { compose, isAuthenticated } = useComposeDB();
 
-  const [pins, setPins] = useState([])
+  const [pins, setPins] = useState([]);
   async function loadPins() {
     const pins = await compose.executeQuery(`
     query {
@@ -39,15 +40,13 @@ export default function Home() {
 
   function getPins() {
     useEffect(() => {
-      loadPins()
-    }, [])
+      loadPins();
+    }, []);
 
-    return pins
+    return pins;
   }
 
   const loadedPins = getPins();
-
-
 
   return (
     <Layout>
@@ -89,79 +88,21 @@ export default function Home() {
                   </Popup>
                 </Marker>
 
-                {
-                  loadedPins.map((pin) => (
-                    <Marker position={[pin.lat, pin.lon]} key={pin.id}>
-                      <Popup>
-                        {pin.name}
-                        <br />
-                        {pin.description}
-                      </Popup>
-                    </Marker>
-                  ))
-                }
-
+                {loadedPins.map((pin) => (
+                  <Marker position={[pin.lat, pin.lon]} key={pin.id}>
+                    <Popup>
+                      {pin.name}
+                      <br />
+                      {pin.description}
+                    </Popup>
+                  </Marker>
+                ))}
               </>
             )}
           </Map>
         </Container>
-        <LeaderBoard />
+        <Leaderboard />
       </Section>
     </Layout>
-  );
-}
-
-
-function LeaderBoard() {
-
-  const { compose } = useComposeDB();
-
-  const [leaders, setLeaders] = useState([])
-  async function loadLeaders() {
-    const pins = await compose.executeQuery(`
-    query {
-      pinIndex(first:100) {
-        edges {
-          node {
-            id
-            author {id}
-          }
-        }
-      }
-    }`);
-    console.log(pins)
-
-    const counts = pins.data.pinIndex.edges.map((edge) => edge.node).reduce((acc, pin) => {
-      if (!(pin.author.id in acc)) {
-        acc[pin.author.id] = 0;
-      }
-      acc[pin.author.id] += 1;
-      return acc
-    }, {});
-
-    console.log(counts)
-    setLeaders(Object.keys(counts).map((k) => ({ author: k, count: counts[k] })).sort((a, b) => a.count - b.count))
-  }
-
-  function getLeaders() {
-    useEffect(() => {
-      loadLeaders()
-    }, [])
-
-    return leaders
-  }
-
-  const leaderComponents = getLeaders();
-
-  return (
-    <ol>
-      {
-        leaderComponents.map((leader) => (
-          <li >
-            {leader.author} -- {leader.count}
-          </li>
-        ))
-      }
-    </ol >
   );
 }
