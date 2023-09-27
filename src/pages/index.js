@@ -46,7 +46,8 @@ export default function Home() {
   }
 
   const loadedPins = getPins();
-  console.log(loadedPins);
+
+
 
   return (
     <Layout>
@@ -104,7 +105,63 @@ export default function Home() {
             )}
           </Map>
         </Container>
+        <LeaderBoard />
       </Section>
     </Layout>
+  );
+}
+
+
+function LeaderBoard() {
+
+  const { compose } = useComposeDB();
+
+  const [leaders, setLeaders] = useState([])
+  async function loadLeaders() {
+    const pins = await compose.executeQuery(`
+    query {
+      pinIndex(first:100) {
+        edges {
+          node {
+            id
+            author {id}
+          }
+        }
+      }
+    }`);
+    console.log(pins)
+
+    const counts = pins.data.pinIndex.edges.map((edge) => edge.node).reduce((acc, pin) => {
+      if (!(pin.author.id in acc)) {
+        acc[pin.author.id] = 0;
+      }
+      acc[pin.author.id] += 1;
+      return acc
+    }, {});
+
+    console.log(counts)
+    setLeaders(Object.keys(counts).map((k) => ({ author: k, count: counts[k] })).sort((a, b) => a.count - b.count))
+  }
+
+  function getLeaders() {
+    useEffect(() => {
+      loadLeaders()
+    }, [])
+
+    return leaders
+  }
+
+  const leaderComponents = getLeaders();
+
+  return (
+    <ol>
+      {
+        leaderComponents.map((leader) => (
+          <li >
+            {leader.author} -- {leader.count}
+          </li>
+        ))
+      }
+    </ol >
   );
 }
