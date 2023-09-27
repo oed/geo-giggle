@@ -16,7 +16,7 @@ const Header = () => {
           <Link href='/'>GeoJiggle</Link>
         </p>
         <ul className={styles.headerLinks}>
-          <w3m-button />
+          <w3m-button balance='hide' />
         </ul>
       </Container>
     </header>
