@@ -6,6 +6,7 @@ import Section from "@components/Section";
 import Container from "@components/Container";
 import Map from "@components/Map";
 import Leaderboard from "@components/Leaderboard";
+import PinContent from "@components/PinContent";
 
 import styles from "@styles/Home.module.scss";
 
@@ -31,6 +32,7 @@ export default function Home() {
             tag
             lat
             lon
+            author { id }
           }
         }
       }
@@ -38,18 +40,26 @@ export default function Home() {
     setPins(pins.data.pinIndex.edges.map((edge) => edge.node));
   }
 
-  function getPins() {
-    useEffect(() => {
-      loadPins();
-    }, []);
-
-    return pins;
+  const [loc, setLoc] = useState(null)
+  async function loadLocation() {
+    const { coords: { latitude, longitude } } = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
+    console.log(latitude, longitude)
+    setLoc([latitude, longitude])
   }
 
-  const loadedPins = getPins();
+
+  useEffect(() => {
+    loadPins()
+    loadLocation()
+  }, [])
+
+
+  const [newMarker, setNewMarker] = useState(false);
 
   return (
-    <Layout>
+    <Layout newMarker={newMarker} setNewMarker={setNewMarker}>
       <Head>
         <title>GeoJiggle</title>
         <meta name='description' content={DESCRIPTION} />
@@ -58,8 +68,8 @@ export default function Home() {
 
       <Section>
         <Container>
-          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins}>
-            {({ TileLayer, Marker, Popup }) => (
+          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins} newMarker={newMarker} setNewMarker={setNewMarker}>
+            {({ TileLayer, Marker, Popup, CircleMarker }) => (
               <>
                 <TileLayer
                   url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -71,6 +81,7 @@ export default function Home() {
                     <br /> Date: <strong>September 25, 2023</strong>.
                   </Popup>
                 </Marker>
+                {loc && <CircleMarker center={loc} radius={4} />}
 
                 <Marker position={[19.406470183927166, -99.17474422883603]}>
                   <Popup>
@@ -87,16 +98,15 @@ export default function Home() {
                     Note: <strong>It's rumored Frida actually lived here.</strong>.
                   </Popup>
                 </Marker>
-
-                {loadedPins.map((pin) => (
-                  <Marker position={[pin.lat, pin.lon]} key={pin.id}>
-                    <Popup>
-                      {pin.name}
-                      <br />
-                      {pin.description}
-                    </Popup>
-                  </Marker>
-                ))}
+                {
+                  pins.map((pin) => (
+                    <Marker position={[pin.lat, pin.lon]} key={pin.id}>
+                      <Popup>
+                        <PinContent pin={pin} />
+                      </Popup>
+                    </Marker>
+                  ))
+                }
               </>
             )}
           </Map>
@@ -106,3 +116,4 @@ export default function Home() {
     </Layout>
   );
 }
+

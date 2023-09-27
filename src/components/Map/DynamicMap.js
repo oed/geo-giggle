@@ -8,7 +8,7 @@ import styles from "./Map.module.scss";
 
 const { useMapEvents, MapContainer, Marker, Popup } = ReactLeaflet;
 
-const Map = ({ children, className, width, height, loadPins, ...rest }) => {
+const Map = ({ children, className, width, height, loadPins, newMarker, setNewMarker, ...rest }) => {
   let mapClassName = styles.map;
 
   if (className) {
@@ -29,7 +29,7 @@ const Map = ({ children, className, width, height, loadPins, ...rest }) => {
   return (
     <MapContainer className={mapClassName} {...rest}>
       {children(ReactLeaflet, Leaflet)}
-      <NewMarker loadPins={loadPins} />
+      {newMarker ? <NewMarker loadPins={loadPins} setNewMarker={setNewMarker} /> : null}
     </MapContainer>
   );
 };
@@ -37,7 +37,7 @@ const Map = ({ children, className, width, height, loadPins, ...rest }) => {
 import myStyles from "@styles/Home.module.scss";
 import { useComposeDB } from '../../hooks/useComposeDB'
 
-function NewMarker({ loadPins }) {
+function NewMarker({ loadPins, setNewMarker }) {
   const [position, setPosition] = useState(null)
   const [isAdding, setAdding] = useState(false)
   const map = useMapEvents({
@@ -49,6 +49,7 @@ function NewMarker({ loadPins }) {
   const { compose, isAuthenticated } = useComposeDB()
 
   async function addPin(position, event) {
+    setNewMarker(false);
     setAdding(true)
     console.log(position);
     event.preventDefault();
@@ -77,7 +78,7 @@ function NewMarker({ loadPins }) {
   }
 
   const popup = isAdding ? null : (
-    <Popup>
+    <Popup  >
       <form onSubmit={(event) => addPin(position, event)} >
         <label className={myStyles.formLabel}>
           Name:
