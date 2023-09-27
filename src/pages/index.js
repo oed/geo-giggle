@@ -5,6 +5,7 @@ import Layout from "@components/Layout";
 import Section from "@components/Section";
 import Container from "@components/Container";
 import Map from "@components/Map";
+import Leaderboard from "@components/Leaderboard";
 import PinContent from "@components/PinContent";
 
 import styles from "@styles/Home.module.scss";
@@ -18,7 +19,7 @@ const DESCRIPTION =
 export default function Home() {
   const { compose, isAuthenticated } = useComposeDB();
 
-  const [pins, setPins] = useState([])
+  const [pins, setPins] = useState([]);
   async function loadPins() {
     const pins = await compose.executeQuery(`
     query {
@@ -97,7 +98,6 @@ export default function Home() {
                     Note: <strong>It's rumored Frida actually lived here.</strong>.
                   </Popup>
                 </Marker>
-
                 {
                   pins.map((pin) => (
                     <Marker position={[pin.lat, pin.lon]} key={pin.id}>
@@ -107,11 +107,11 @@ export default function Home() {
                     </Marker>
                   ))
                 }
-
               </>
             )}
           </Map>
         </Container>
+        <Leaderboard />
       </Section>
     </Layout>
   );
