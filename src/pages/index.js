@@ -5,6 +5,7 @@ import Layout from "@components/Layout";
 import Section from "@components/Section";
 import Container from "@components/Container";
 import Map from "@components/Map";
+import PinContent from "@components/PinContent";
 
 import styles from "@styles/Home.module.scss";
 
@@ -30,6 +31,7 @@ export default function Home() {
             tag
             lat
             lon
+            author { id }
           }
         }
       }
@@ -100,9 +102,7 @@ export default function Home() {
                   pins.map((pin) => (
                     <Marker position={[pin.lat, pin.lon]} key={pin.id}>
                       <Popup>
-                        {pin.name}
-                        <br />
-                        {pin.description}
+                        <PinContent pin={pin} />
                       </Popup>
                     </Marker>
                   ))
