@@ -5,7 +5,7 @@ import Footer from '@components/Footer';
 
 import styles from './Layout.module.scss';
 
-const Layout = ({ children, className, ...rest }) => {
+const Layout = ({ children, className, newMarker, setNewMarker, ...rest }) => {
   return (
     <div className={styles.layout}>
       <Head>
@@ -13,7 +13,7 @@ const Layout = ({ children, className, ...rest }) => {
       </Head>
       <Header />
       <main className={styles.main}>{children}</main>
-      <Footer />
+      <Footer newMarker={newMarker} setNewMarker={setNewMarker} />
     </div>
   );
 };

@@ -53,9 +53,10 @@ export default function Home() {
   }, [])
 
 
+  const [newMarker, setNewMarker] = useState(false);
 
   return (
-    <Layout>
+    <Layout newMarker={newMarker} setNewMarker={setNewMarker}>
       <Head>
         <title>GeoJiggle</title>
         <meta name='description' content={DESCRIPTION} />
@@ -64,7 +65,7 @@ export default function Home() {
 
       <Section>
         <Container>
-          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins}>
+          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins} newMarker={newMarker} setNewMarker={setNewMarker}>
             {({ TileLayer, Marker, Popup, CircleMarker }) => (
               <>
                 <TileLayer
@@ -77,7 +78,7 @@ export default function Home() {
                     <br /> Date: <strong>September 25, 2023</strong>.
                   </Popup>
                 </Marker>
-                { loc && <CircleMarker center={loc} radius={4} /> }
+                {loc && <CircleMarker center={loc} radius={4} />}
 
                 <Marker position={[19.406470183927166, -99.17474422883603]}>
                   <Popup>
@@ -115,3 +116,4 @@ export default function Home() {
     </Layout>
   );
 }
+
