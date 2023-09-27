@@ -15,9 +15,7 @@ const Header = () => {
           &nbsp;&nbsp;
           <Link href='/'>GeoJiggle</Link>
         </p>
-        <ul className={styles.headerLinks}>
-          <w3m-button balance='hide' />
-        </ul>
+        <w3m-button balance='hide' />
       </Container>
     </header>
   );

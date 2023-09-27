@@ -21,7 +21,7 @@
     "@ceramicnetwork/http-client": "^2.32.0",
     "@composedb/client": "^0.5.1",
     "@didtools/pkh-ethereum": "^0.4.1",
-    "@web3modal/wagmi": "^3.0.0-beta.5",
+    "@web3modal/wagmi": "^3.0.1",
     "copy-webpack-plugin": "^11.0.0",
     "did-session": "^2.1.1",
     "leaflet": "^1.9.4",

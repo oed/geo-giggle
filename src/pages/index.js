@@ -37,16 +37,22 @@ export default function Home() {
     setPins(pins.data.pinIndex.edges.map((edge) => edge.node));
   }
 
-  function getPins() {
-    useEffect(() => {
-      loadPins()
-    }, [])
-
-    return pins
+  const [loc, setLoc] = useState(null)
+  async function loadLocation() {
+    const { coords: { latitude, longitude } } = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
+    console.log(latitude, longitude)
+    setLoc([latitude, longitude])
   }
 
-  const loadedPins = getPins();
-  console.log(loadedPins);
+
+  useEffect(() => {
+    loadPins()
+    loadLocation()
+  }, [])
+
+
 
   return (
     <Layout>
@@ -59,7 +65,7 @@ export default function Home() {
       <Section>
         <Container>
           <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins}>
-            {({ TileLayer, Marker, Popup }) => (
+            {({ TileLayer, Marker, Popup, CircleMarker }) => (
               <>
                 <TileLayer
                   url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -71,6 +77,7 @@ export default function Home() {
                     <br /> Date: <strong>September 25, 2023</strong>.
                   </Popup>
                 </Marker>
+                { loc && <CircleMarker center={loc} radius={4} /> }
 
                 <Marker position={[19.406470183927166, -99.17474422883603]}>
                   <Popup>
@@ -89,7 +96,7 @@ export default function Home() {
                 </Marker>
 
                 {
-                  loadedPins.map((pin) => (
+                  pins.map((pin) => (
                     <Marker position={[pin.lat, pin.lon]} key={pin.id}>
                       <Popup>
                         {pin.name}
