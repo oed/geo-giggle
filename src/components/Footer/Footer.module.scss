@@ -24,10 +24,8 @@
 
 .footerContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
 
   @media (max-width: 720px) {
     flex-wrap: wrap;
@@ -37,6 +35,8 @@
     margin-bottom: 0;
   }
 }
+
+
 
 .footerLinks {
   display: flex;

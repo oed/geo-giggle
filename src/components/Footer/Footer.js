@@ -16,13 +16,13 @@ const Footer = ({ newMarker, setNewMarker, ...rest }) => {
   
   return (
     <footer className={styles.footer} {...rest}>
-      {isAuthenticated ?
-        newMarker ?
-          <span>Click anywhere on the map to place marker</span>
-          : <Image src='/new-pin.png' alt='GeoJiggle' width={32} height={32} onClick={() => setNewMarker(true)} />
-        : null
-      }
       <Container className={`${styles.footerContainer} ${styles.footerLegal}`}>
+        {isAuthenticated ?
+          newMarker ?
+            <span>Click anywhere on the map to place marker</span>
+            : <Image src='/new-pin.png' alt='GeoJiggle' width={32} height={32} onClick={() => setNewMarker(true)} />
+          : null
+        }
         <GeoJiggleModal />
         <Button variant='primary' onClick={() => setModalShow(true)}>
           Leaderboard
