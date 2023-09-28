@@ -22,12 +22,10 @@ export default function Home() {
     "interest": true,
     "food": true,
   });
-  console.log('index', tags);
 
   const [pins, setPins] = useState([]);
   async function loadPins() {
     const tagList = Object.keys(tags).flatMap((k) => tags[k] ? [k] : []);
-    console.log('tagList', tagList);
     const input = { where: { tag: { in: tagList } } };
     const pins = await compose.executeQuery(`
         query($input: PinFiltersInput) {
@@ -45,7 +43,6 @@ export default function Home() {
             }
           }
       }`, { input });
-    console.log(pins);
     if (pins.data && pins.data.pinIndex) {
       setPins(pins.data.pinIndex.edges.map((edge) => edge.node));
     } else {
