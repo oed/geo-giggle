@@ -23,7 +23,9 @@ const Footer = ({ newMarker, setNewMarker, tags, setTags, ...rest }) => {
         {isAuthenticated ?
           newMarker ?
             <span>Click anywhere on the map to place marker</span>
-            : <Image src='/new-pin.png' alt='GeoJiggle' width={32} height={32} onClick={() => setNewMarker(true)} />
+            : <Button variant='primary' onClick={() => setNewMarker(true)}>
+              New Pin
+            </Button>
           : null
         }
         <Button variant='primary' onClick={() => setLeaderModalShow(true)}>
