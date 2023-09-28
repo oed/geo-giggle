@@ -8,12 +8,15 @@ import Image from "next/image";
 import styles from "./Footer.module.scss";
 
 import { useComposeDB } from "../../hooks/useComposeDB";
+import Leaderboard from "@components/Leaderboard";
+import TagFilter from "@components/TagFilter";
 
-const Footer = ({ newMarker, setNewMarker, ...rest }) => {
-  const [modalShow, setModalShow] = React.useState(false);
-  
+const Footer = ({ newMarker, setNewMarker, tags, setTags, ...rest }) => {
+  const [leaderModalShow, setLeaderModalShow] = React.useState(false);
+  const [filterModalShow, setFilterModalShow] = React.useState(false);
+
   const { compose, isAuthenticated } = useComposeDB();
-  
+
   return (
     <footer className={styles.footer} {...rest}>
       <Container className={`${styles.footerContainer} ${styles.footerLegal}`}>
@@ -23,12 +26,19 @@ const Footer = ({ newMarker, setNewMarker, ...rest }) => {
             : <Image src='/new-pin.png' alt='GeoJiggle' width={32} height={32} onClick={() => setNewMarker(true)} />
           : null
         }
-        <GeoJiggleModal />
-        <Button variant='primary' onClick={() => setModalShow(true)}>
+        <Button variant='primary' onClick={() => setLeaderModalShow(true)}>
           Leaderboard
         </Button>
+        <Button variant='primary' onClick={() => setFilterModalShow(true)}>
+          Filters
+        </Button>
 
-        <GeoJiggleModal title='Leaderboard' show={modalShow} onHide={() => setModalShow(false)} />
+        <GeoJiggleModal title='Leaderboard' show={leaderModalShow} onHide={() => setLeaderModalShow(false)} >
+          <Leaderboard />
+        </GeoJiggleModal>
+        <GeoJiggleModal title='Filters' show={filterModalShow} onHide={() => setFilterModalShow(false)} >
+          <TagFilter tags={tags} setTags={setTags} />
+        </GeoJiggleModal>
       </Container>
     </footer>
   );
