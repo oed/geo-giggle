@@ -12,13 +12,8 @@ function Leader({ author, count }) {
     console.error("Error fetching ENS name for", author, ":", isError);
   }
 
-  if (isLoading) {
-    console.log("Loading ENS name for", author, "...");
-  }
-
   function formatAddress(address) {
     return address.split(":")[4];
-    // return `${stripped.slice(0, 6)}...${stripped.slice(-4)}`;
   }
 
   return (

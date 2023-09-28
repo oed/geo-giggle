@@ -12,12 +12,12 @@ const Header = () => {
 
     const addJiggle = () => {
       element.classList.add(styles.jiggle);
-      setTimeout(removeJiggle, 1500); // Jiggle for 1.5 seconds
+      setTimeout(removeJiggle, 1000); // Jiggle for 1 second
     };
 
     const removeJiggle = () => {
       element.classList.remove(styles.jiggle);
-      const randomTime = Math.floor(Math.random() * 15000) + 5000; // Random time between 1 and 6 seconds
+      const randomTime = Math.floor(Math.random() * 10000) + 5000; // Random time between 5 and 15 seconds
       setTimeout(addJiggle, randomTime);
     };
 
