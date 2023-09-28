@@ -27,7 +27,7 @@ function Leader({ author, count }) {
         [{count} pin{count > 1 && "s"}]
       </strong>
       &nbsp;-&nbsp;
-      <Link href={`https://etherscan.io/address/${formatAddress(author)}`}>
+      <Link href={`https://etherscan.io/address/${formatAddress(author)}`} rel='noopener noreferrer' target='_blank'>
         <span className={styles.walletAddress}>
           {ensName || `${formatAddress(author).slice(0, 6)}...${formatAddress(author).slice(-4)}`}
         </span>
