@@ -83,7 +83,7 @@ export default function Home() {
 
       <Section>
         <Container>
-          <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins} newMarker={newMarker} setNewMarker={setNewMarker}>
+          <Map className={styles.homeMap} center={loc || DEFAULT_CENTER} zoom={15} loadPins={loadPins} newMarker={newMarker} setNewMarker={setNewMarker}>
             {({ TileLayer, Marker, Popup, CircleMarker }, { Icon }) => (
               <>
                 <TileLayer
