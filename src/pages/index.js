@@ -5,7 +5,6 @@ import Layout from "@components/Layout";
 import Section from "@components/Section";
 import Container from "@components/Container";
 import Map from "@components/Map";
-import Leaderboard from "@components/Leaderboard";
 import PinContent from "@components/PinContent";
 
 import styles from "@styles/Home.module.scss";
@@ -18,26 +17,40 @@ const DESCRIPTION =
 
 export default function Home() {
   const { compose, isAuthenticated } = useComposeDB();
+  const [tags, setTags] = useState({
+    "danger": true,
+    "interest": true,
+    "food": true,
+  });
+  console.log('index', tags);
 
   const [pins, setPins] = useState([]);
   async function loadPins() {
+    const tagList = Object.keys(tags).flatMap((k) => tags[k] ? [k] : []);
+    console.log('tagList', tagList);
+    const input = { where: { tag: { in: tagList } } };
     const pins = await compose.executeQuery(`
-    query {
-      pinIndex(first:100) {
-        edges {
-          node {
-            id
-            name
-            description
-            tag
-            lat
-            lon
-            author { id }
+        query($input: PinFiltersInput) {
+          pinIndex(first:100, filters: $input) {
+            edges {
+              node {
+                id
+                name
+                description
+                tag
+                lat
+                lon
+                author { id }
+              }
+            }
           }
-        }
-      }
-    }`);
-    setPins(pins.data.pinIndex.edges.map((edge) => edge.node));
+      }`, { input });
+    console.log(pins);
+    if (pins.data && pins.data.pinIndex) {
+      setPins(pins.data.pinIndex.edges.map((edge) => edge.node));
+    } else {
+      setPins([])
+    }
   }
 
   const [loc, setLoc] = useState(null)
@@ -52,6 +65,9 @@ export default function Home() {
 
   useEffect(() => {
     loadPins()
+  }, [tags])
+
+  useEffect(() => {
     loadLocation()
   }, [])
 
@@ -59,7 +75,7 @@ export default function Home() {
   const [newMarker, setNewMarker] = useState(false);
 
   return (
-    <Layout newMarker={newMarker} setNewMarker={setNewMarker}>
+    <Layout newMarker={newMarker} setNewMarker={setNewMarker} tags={tags} setTags={setTags}>
       <Head>
         <title>GeoJiggle</title>
         <meta name='description' content={DESCRIPTION} />
@@ -75,29 +91,7 @@ export default function Home() {
                   url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                   attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={DEFAULT_CENTER}>
-                  <Popup>
-                    This is where GeoJiggle was born.
-                    <br /> Date: <strong>September 25, 2023</strong>.
-                  </Popup>
-                </Marker>
                 {loc && <CircleMarker center={loc} radius={4} />}
-
-                <Marker position={[19.406470183927166, -99.17474422883603]}>
-                  <Popup>
-                    Saltillo. There be tokens.
-                    <br />
-                    Note: <strong>You need to cross a bridge to get there</strong>.
-                  </Popup>
-                </Marker>
-
-                <Marker position={[19.41330622370157, -99.17588269083605]}>
-                  <Popup>
-                    Frida. There be Rust.
-                    <br />
-                    Note: <strong>It's rumored Frida actually lived here.</strong>.
-                  </Popup>
-                </Marker>
                 {
                   pins.map((pin) => {
                     const colorMod = (new TextEncoder()).encode(pin.tag).join('')
@@ -123,7 +117,6 @@ export default function Home() {
             )}
           </Map>
         </Container>
-        <Leaderboard />
       </Section>
     </Layout>
   );
