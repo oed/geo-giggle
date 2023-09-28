@@ -45,7 +45,6 @@ export default function Home() {
     const { coords: { latitude, longitude } } = await new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resolve, reject)
     })
-    console.log(latitude, longitude)
     setLoc([latitude, longitude])
   }
 
@@ -101,7 +100,6 @@ export default function Home() {
                 {
                   pins.map((pin) => {
                     const colorMod = (new TextEncoder()).encode(pin.tag).join('')
-                    console.log(colorMod)
                     const icon = new Icon.Default({ className: `color-${colorMod}` })
 
                     const styleSheet = document.createElement("style")
