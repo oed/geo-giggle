@@ -5,7 +5,7 @@ const PinContent = ({ pin }) => {
   const { data: ensName, isError, isLoading } = useEnsName({ address })
 
   return (
-    <p>
+    <div>
       <b>Name:</b>
       <br />
       {pin.name}
@@ -21,7 +21,7 @@ const PinContent = ({ pin }) => {
       <b>author:</b>
       <br />
       {ensName || address}
-    </p>
+    </div>
   );
 };
 

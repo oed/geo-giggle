@@ -69,7 +69,7 @@ export default function Home() {
       <Section>
         <Container>
           <Map className={styles.homeMap} center={DEFAULT_CENTER} zoom={15} loadPins={loadPins} newMarker={newMarker} setNewMarker={setNewMarker}>
-            {({ TileLayer, Marker, Popup, CircleMarker }) => (
+            {({ TileLayer, Marker, Popup, CircleMarker }, { Icon }) => (
               <>
                 <TileLayer
                   url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -99,13 +99,25 @@ export default function Home() {
                   </Popup>
                 </Marker>
                 {
-                  pins.map((pin) => (
-                    <Marker position={[pin.lat, pin.lon]} key={pin.id}>
-                      <Popup>
-                        <PinContent pin={pin} />
-                      </Popup>
-                    </Marker>
-                  ))
+                  pins.map((pin) => {
+                    const colorMod = (new TextEncoder()).encode(pin.tag).join('')
+                    console.log(colorMod)
+                    const icon = new Icon.Default({ className: `color-${colorMod}` })
+
+                    const styleSheet = document.createElement("style")
+                    styleSheet.innerText += `
+                      .color-${colorMod} { filter: hue-rotate(${colorMod%999}deg); }
+                    `
+                    document.head.appendChild(styleSheet)
+
+                    return (
+                      <Marker position={[pin.lat, pin.lon]} key={pin.id} icon={icon} style="234">
+                        <Popup>
+                          <PinContent pin={pin} />
+                        </Popup>
+                      </Marker>
+                    )
+                  })
                 }
               </>
             )}
