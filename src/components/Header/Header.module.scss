@@ -57,3 +57,27 @@
     }
   }
 }
+
+@keyframes jiggle {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-2px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.jiggle {
+  animation-name: jiggle;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+}
